@@ -6,7 +6,7 @@ import { CreateRequestSchema } from '@/services/schema/request';
 async function handleRequest(request: NextRequest, params: { client_id: string }): Promise<NextResponse<GeneralResponse>> {
     const { client_id } = params;
 
-    const pathString = '/'
+    const pathString = ''
     const headers = JSON.stringify(Object.fromEntries(request.headers.entries()))
     const queries = JSON.stringify(Object.fromEntries(request.nextUrl.searchParams.entries()))
     const method = request.method
