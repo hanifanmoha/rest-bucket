@@ -46,8 +46,9 @@ function Section({ title, content }: { title: string; content: string }) {
   )
 }
 
-export default function RequestDashboard({ clientId }: { clientId: string }) {
+export default function RequestDashboard({ clientId: initialClientId }: { clientId: string }) {
   const router = useRouter()
+  const [clientId, setClientId] = useState<string>("loading...")
   const [requests, setRequests] = useState<RequestRecord[]>([])
   const [selected, setSelected] = useState<RequestRecord | null>(null)
   const [total, setTotal] = useState(0)
@@ -57,6 +58,16 @@ export default function RequestDashboard({ clientId }: { clientId: string }) {
   const [manualId, setManualId] = useState('')
   const loadedPagesRef = useRef(1)
   const dialogRef = useRef<HTMLDialogElement>(null)
+
+  // Initialize clientId from localStorage or use the server-generated one
+  useEffect(() => {
+    let storedId = localStorage.getItem('client_id')
+    if (!storedId) {
+      storedId = initialClientId
+      localStorage.setItem('client_id', storedId)
+    }
+    setClientId(storedId)
+  }, [initialClientId])
 
   // Reset state when clientId changes
   useEffect(() => {
