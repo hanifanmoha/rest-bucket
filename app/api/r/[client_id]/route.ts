@@ -3,16 +3,22 @@ import { GeneralResponse } from '@/utils/response';
 import requestServiceInstance from '@/services/request-service';
 import { CreateRequestSchema } from '@/services/schema/request';
 
-function handleRequest(request: NextRequest, params: { client_id: string }): NextResponse<GeneralResponse> {
+async function handleRequest(request: NextRequest, params: { client_id: string }): Promise<NextResponse<GeneralResponse>> {
     const { client_id } = params;
 
     const pathString = '/'
     const headers = JSON.stringify(Object.fromEntries(request.headers.entries()))
     const queries = JSON.stringify(Object.fromEntries(request.nextUrl.searchParams.entries()))
-    const body = request.body ? JSON.stringify(request.body) : ''
+    const method = request.method
+    let bodyJson = {}
+    if (method !== 'GET') {
+        bodyJson = await request.json()
+    }
+    const body = bodyJson ? JSON.stringify(bodyJson) : ''
 
     const req : CreateRequestSchema = {
         client_id,
+        method: request.method,
         path: pathString,
         headers,
         queries,

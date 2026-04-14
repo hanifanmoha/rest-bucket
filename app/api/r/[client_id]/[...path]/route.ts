@@ -9,11 +9,16 @@ async function handleRequest(request: NextRequest, params: { client_id: string, 
     const pathString = path.join('/')
     const headers = JSON.stringify(Object.fromEntries(request.headers.entries()))
     const queries = JSON.stringify(Object.fromEntries(request.nextUrl.searchParams.entries()))
-    const bodyJson = await request.json()
+    const method = request.method
+    let bodyJson = {}
+    if (method !== 'GET') {
+        bodyJson = await request.json()
+    }
     const body = bodyJson ? JSON.stringify(bodyJson) : ''
 
     const req : CreateRequestSchema = {
         client_id,
+        method: request.method,
         path: pathString,
         headers,
         queries,

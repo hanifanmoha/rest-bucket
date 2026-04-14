@@ -3,7 +3,7 @@
 @plugin "@tailwindcss/typography";
 
 @plugin "daisyui" {
-  themes: halloween --default, light, dark;
+  themes: cmyk --default, light, dark;
 }
 
 @theme {
