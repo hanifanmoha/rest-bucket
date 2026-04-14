@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: "REST Bucket",
   description: "REST API testing sandbox",
   icons: {
-    icon: '/mailbox.svg',
+    icon: '/thunder.svg',
   },
 };
 
