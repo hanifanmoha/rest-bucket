@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { generateClientId } from '@/utils/clientid'
 
 interface RequestRecord {
   _id: string
@@ -47,8 +48,11 @@ function Section({ title, content }: { title: string; content: string }) {
 }
 
 export default function RequestDashboard({ clientId: initialClientId }: { clientId: string }) {
+
+  console.log("Initial Client ID:", initialClientId) // Debug log to verify client ID
+
   const router = useRouter()
-  const [clientId, setClientId] = useState<string>("loading...")
+  const [clientId, setClientId] = useState<string>(initialClientId)
   const [requests, setRequests] = useState<RequestRecord[]>([])
   const [selected, setSelected] = useState<RequestRecord | null>(null)
   const [total, setTotal] = useState(0)
@@ -63,10 +67,12 @@ export default function RequestDashboard({ clientId: initialClientId }: { client
   useEffect(() => {
     let storedId = localStorage.getItem('client_id')
     if (!storedId) {
-      storedId = initialClientId
+      storedId = generateClientId()
       localStorage.setItem('client_id', storedId)
     }
-    setClientId(storedId)
+    if (!initialClientId) {
+      setClientId(storedId)
+    }
   }, [initialClientId])
 
   // Reset state when clientId changes
