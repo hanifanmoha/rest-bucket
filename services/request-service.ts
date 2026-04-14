@@ -13,7 +13,7 @@ class RequestService {
         this.requestManager = _requestManager
     }
 
-    async getRequests(email: string, page: number = 1): Promise<{ requests: Request[], total: number, limit: number }> {
+    async getRequests(client_id: string, page: number = 1): Promise<{ requests: Request[], total: number, limit: number }> {
         const limit = LIMIT_PER_PAGE
         const offset = (page - 1) * limit
 
@@ -22,7 +22,7 @@ class RequestService {
         // delete old requests to maintain storage
         this.requestManager.deleteOldRequests(timeLimit)
 
-        const { requests, total } = await this.requestManager.getRequests(email, timeLimit, limit, offset)
+        const { requests, total } = await this.requestManager.getRequests(client_id, timeLimit, limit, offset)
         return { requests, total, limit }
     }
 

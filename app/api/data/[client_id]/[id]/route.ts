@@ -5,7 +5,7 @@ import requestServiceInstance from '@/services/request-service';
 // Handle GET requests
 export async function GET(
     req: NextRequest,
-    { params }: { params: Promise<{ email: string, id: string }> }
+    { params }: { params: Promise<{ client_id: string, id: string }> }
 ): Promise<NextResponse<GeneralResponse>> {
 
     const { id } = await params
